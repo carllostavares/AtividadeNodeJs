@@ -1,23 +1,44 @@
 //carregar o módulo hhttp
 var http = require('http');
 var url = require('url')
+var fs = require('sf');
 
+//Função para le um arquivo e escrevê-lo na response
+function readFile(response,file){
+    //faz a leitura do arquivo  de forma assícrona
+    fs.readFile(file,function(err, data){
+        //Quando ler, escreve na response o conteúdo do arquivo JSON
+        response.end(data);
+    });
+}
 
-var callback = function (request, response){
+//Função callback para o servidor http
+function callback (request, response){
 
 //Define o cabeçalho(HEADER) com o tipo da resposta + UTF-8 como charset
-response.writeHead(200,{"Content-Type": "text/plain; charset=utf-8"});  
+response.writeHead(200,{"Content-Type": "application/json; charset=utf-8"});  
 
 // Faz o parts da url separado do caminho de rota
 var parts = url.parse(request.url);
 
+var path = parts.rota
+
+
 //Verifica a rota
-if(parts.path == '/'){
-    response.end("Site na raiz.");
-}else if(parts.path == '/carros') {
-    response.end("Voce digitou a rota /carros !\ns")
-}else{
-    response.end("Rota inválida" +  parts.path);
+if(path == '/carros/classicos'){
+    //Retorna o JSON dos carros classicos
+    readFile(response,"carros_classicos.json");
+
+}else if(path == '/carros/esportivos') {
+    //Retorna o JSON dos carros esportivos
+   readFile(response,"carros_esportivos.json");
+
+}else if(path == '/carros/luxo'){
+     //Retorna o JSON dos carros de luxo
+    readFile(response, "carros_luxo.json");
+
+} else{
+    response.end("Rota inválida" + path);
 }
 };
 
