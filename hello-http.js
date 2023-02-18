@@ -1,7 +1,7 @@
 //carregar o módulo hhttp
 var http = require('http');
 var url = require('url')
-var fs = require('sf');
+var fs = require('fs');
 
 //Função para le um arquivo e escrevê-lo na response
 function readFile(response,file){
@@ -21,7 +21,7 @@ response.writeHead(200,{"Content-Type": "application/json; charset=utf-8"});
 // Faz o parts da url separado do caminho de rota
 var parts = url.parse(request.url);
 
-var path = parts.rota
+var path = parts.path
 
 
 //Verifica a rota
